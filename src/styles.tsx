@@ -1,5 +1,5 @@
 import { keyframes } from '@emotion/core'
-import { LoadingOverLayProps, LoadingOverlayState } from './LoadingOverlayTypes'
+import { LoadingOverLayProps, OverflowCSS } from './LoadingOverlayTypes'
 
 const rotate360 = keyframes`
   from {
@@ -30,7 +30,7 @@ type Styles = {
 }
 
 const styles: Styles = {
-  wrapper: (state: LoadingOverlayState) => ({
+  wrapper: (state: OverflowCSS) => ({
     position: 'relative',
     ...state
   }),

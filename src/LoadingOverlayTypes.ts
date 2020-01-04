@@ -17,12 +17,14 @@ export type LoadingOverLayProps = {
     }
 }
 
+export type OverflowCSS = {
+    overflow?: string,
+    overflowX?: string,
+    overflowY?: string
+}
+
 export type LoadingOverlayState = {
-    overflowCSS?: {
-        overflow?: string,
-        overflowX?: string,
-        overflowY?: string
-    }
+    overflowCSS?: OverflowCSS
 }
 
 export type LoadingOverlayDefaultProps = {

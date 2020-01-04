@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react'
 import { CSSTransition } from 'react-transition-group'
-import { css } from '@emotion/core'
-import { cx } from 'emotion'
+import { css, cx } from 'emotion'
 
 import Spinner from './components/Spinner'
 import STYLES from './styles'
-import {LoadingOverlayDefaultProps, LoadingOverLayProps, LoadingOverlayState} from './LoadingOverlayTypes'
+import {LoadingOverlayDefaultProps, LoadingOverLayProps, LoadingOverlayState, OverflowCSS} from './LoadingOverlayTypes'
 import {TransitionStatus} from 'react-transition-group/Transition';
 
 class LoadingOverlayWrapper extends PureComponent<LoadingOverLayProps, LoadingOverlayState> {
@@ -44,7 +43,7 @@ class LoadingOverlayWrapper extends PureComponent<LoadingOverLayProps, LoadingOv
    * If a custom style was provided via props, run it with
    * the base css obj.
    */
-  getStyles = (key: string, providedState?: LoadingOverlayState | TransitionStatus) => {
+  getStyles = (key: string, providedState?: OverflowCSS | TransitionStatus) => {
     const base = STYLES[key](providedState, this.props)
     const custom = this.props.styles ? this.props.styles[key] : undefined
     if (!custom) return base
@@ -57,13 +56,8 @@ class LoadingOverlayWrapper extends PureComponent<LoadingOverLayProps, LoadingOv
    * Convenience cx wrapper to add prefix classes to each of the child
    * elements for styling purposes.
    */
-  cx = (names: string | Array<string>, ...args: any) => {
-    console.log(args);
+  cx = (names: string | Array<string | false>, ...args: any) => {
     const arr = Array.isArray(names) ? names : [names]
-    console.log(cx(
-        ...arr.map(name => name ? `${this.props.classNamePrefix}${name}` : ''),
-        ...args
-    ))
     return cx(
       ...arr.map(name => name ? `${this.props.classNamePrefix}${name}` : ''),
       ...args
@@ -71,6 +65,7 @@ class LoadingOverlayWrapper extends PureComponent<LoadingOverLayProps, LoadingOv
   }
 
   render () {
+    const { overflowCSS } = this.state
     const {
       children,
       className,
@@ -87,8 +82,8 @@ class LoadingOverlayWrapper extends PureComponent<LoadingOverLayProps, LoadingOv
         ref={this.wrapper}
         className={
           this.cx(
-            ['wrapper', active ? 'wrapper--active' : ''],
-            css(this.getStyles('wrapper', active ? this.state : {})),
+            ['wrapper', active && 'wrapper--active'],
+            css(this.getStyles('wrapper', active ? overflowCSS : {})),
             className
           )
         }
