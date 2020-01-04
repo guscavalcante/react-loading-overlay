@@ -1,13 +1,15 @@
 import React, { PureComponent } from 'react'
 import { CSSTransition } from 'react-transition-group'
-import { css, cx } from '@emotion/core'
+import { css } from '@emotion/core'
+// TODO is this the same?
+import cx from 'classnames'
 
 import Spinner from './components/Spinner'
 import STYLES from './styles'
-import { LoadingOverLayWrapperProps, LoadingOverlayWrapperState } from './LoadingOverlayWrapperTypes'
+import {LoadingOverlayDefaultProps, LoadingOverLayProps, LoadingOverlayState} from './LoadingOverlayTypes'
 
-class LoadingOverlayWrapper extends PureComponent<LoadingOverLayWrapperProps, LoadingOverlayWrapperState> {
-  static defaultProps = {
+class LoadingOverlayWrapper extends PureComponent<LoadingOverLayProps, LoadingOverlayState> {
+  static defaultProps: LoadingOverlayDefaultProps = {
     classNamePrefix: '_loading_overlay_',
     fadeSpeed: 500,
     styles: {}
@@ -16,24 +18,24 @@ class LoadingOverlayWrapper extends PureComponent<LoadingOverLayWrapperProps, Lo
   // eslint-disable-next-line no-undef
   wrapper = React.createRef<HTMLDivElement>();
 
-  constructor (props: LoadingOverLayWrapperProps) {
+  constructor (props: LoadingOverLayProps) {
     super(props)
 
     this.state = { overflowCSS: {} }
   }
 
   componentDidMount () {
-    // @ts-ignore
+    // @ts-ignore TODO Fix
     const wrapperStyle = window.getComputedStyle(this.wrapper.current)
     const overflowCSS = ['overflow', 'overflowX', 'overflowY'].reduce((m, i) => {
-      // @ts-ignore
+      // @ts-ignore TODO fix
       if (wrapperStyle[i] !== 'visible') m[i] = 'hidden'
       return m
     }, {})
     this.setState({ overflowCSS })
   }
 
-  componentDidUpdate (prevProps: LoadingOverLayWrapperProps) {
+  componentDidUpdate (prevProps: LoadingOverLayProps) {
     const { active } = this.props
     if (active && this.wrapper && this.wrapper.current) this.wrapper.current.scrollTop = 0
   }
@@ -43,7 +45,7 @@ class LoadingOverlayWrapper extends PureComponent<LoadingOverLayWrapperProps, Lo
    * If a custom style was provided via props, run it with
    * the base css obj.
    */
-  getStyles = (key: string, providedState?: LoadingOverlayWrapperState) => {
+  getStyles = (key: string, providedState?: LoadingOverlayState) => {
     // @ts-ignore
     const base = STYLES[key](providedState, this.props)
     // @ts-ignore
@@ -93,7 +95,7 @@ class LoadingOverlayWrapper extends PureComponent<LoadingOverLayWrapperProps, Lo
         <CSSTransition
           in={active}
           classNames='_loading-overlay-transition'
-          timeout={fadeSpeed}
+          timeout={fadeSpeed!}
           unmountOnExit
         >
           <div

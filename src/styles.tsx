@@ -1,5 +1,5 @@
 import { keyframes } from '@emotion/core'
-import { LoadingOverLayWrapperProps, LoadingOverlayWrapperState } from './LoadingOverlayWrapperTypes'
+import { LoadingOverLayProps, LoadingOverlayState } from './LoadingOverlayTypes'
 
 const rotate360 = keyframes`
   from {
@@ -26,11 +26,11 @@ const spinnerDash = keyframes`
 `
 
 export default {
-  wrapper: (state: LoadingOverlayWrapperState) => ({
+  wrapper: (state: LoadingOverlayState) => ({
     position: 'relative',
     ...state
   }),
-  overlay: (state: string, props: LoadingOverLayWrapperProps) => ({
+  overlay: (state: string, props: LoadingOverLayProps) => ({
     position: 'absolute',
     height: '100%',
     width: '100%',

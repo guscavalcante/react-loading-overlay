@@ -10,10 +10,11 @@
     "transition",
     "spinner"
   ],
-  "main": "lib/LoadingOverlayWrapper.tsx",
-  "types": "lib/LoadingOverlayWrapper.d.ts",
+  "main": "lib/LoadingOverlay.js",
+  "types": "lib/LoadingOverlay.d.ts",
   "scripts": {
-    "build": "npm run build-cjs && npm run build-es6 && rimraf umd && npm run build-umd && npm run build-min",
+    "build": "npm run build-cjs && npm run build-es6 && npm run build-types && rimraf umd && npm run build-umd && npm run build-min",
+    "build-types": "tsc --emitDeclarationOnly",
     "build-cjs": "rimraf lib && babel ./src -d lib --extensions \".ts,.tsx\"",
     "build-es6": "rimraf es6 && babel ./src -d es6 --blacklist=es6.modules --extensions \".ts,.tsx\"",
     "build-umd": "NODE_ENV=development webpack src/LoadingOverlay.tsx -o umd/index.js",
@@ -38,6 +39,7 @@
   "homepage": "https://github.com/derrickpelletier/react-loading-overlay#readme",
   "dependencies": {
     "@emotion/core": "^10.0.27",
+    "classnames": "^2.2.6",
     "emotion": "^10.0.1",
     "prop-types": "^15.6.2",
     "react-transition-group": "^2.5.0"
@@ -53,6 +55,7 @@
     "@storybook/addon-actions": "^4.0.10",
     "@storybook/preset-typescript": "^1.2.0",
     "@storybook/react": "^4.0.10",
+    "@types/classnames": "^2.2.9",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
     "@types/react-transition-group": "^4.2.3",
@@ -60,6 +63,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
+    "babel-plugin-emotion": "^10.0.27",
     "jest": "^23.6.0",
     "react": "^16.6.3",
     "react-addons-test-utils": "^15.6.2",

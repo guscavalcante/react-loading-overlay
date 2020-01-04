@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from '@emotion/core'
 
 type SpinnerProps = {
-    getStyles: (key: string) => void,
+    getStyles: (key: string) => TemplateStringsArray,
     cx: (name: string, arg2: any) => string
 }
 
