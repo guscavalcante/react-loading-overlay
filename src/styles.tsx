@@ -1,4 +1,4 @@
-import { keyframes } from '@emotion/core'
+import { keyframes } from 'emotion'
 import { LoadingOverLayProps, OverflowCSS } from './LoadingOverlayTypes'
 
 const rotate360 = keyframes`

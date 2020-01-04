@@ -23,10 +23,8 @@ class LoadingOverlayWrapper extends PureComponent<LoadingOverLayProps, LoadingOv
   }
 
   componentDidMount () {
-    // @ts-ignore TODO Fix
-    const wrapperStyle = window.getComputedStyle(this.wrapper.current)
-    const overflowCSS = ['overflow', 'overflowX', 'overflowY'].reduce((m, i) => {
-      // @ts-ignore TODO fix
+    const wrapperStyle: {[key: string]: any} = window.getComputedStyle(this.wrapper.current!)
+    const overflowCSS = ['overflow', 'overflowX', 'overflowY'].reduce((m: {[key: string]: string}, i) => {
       if (wrapperStyle[i] !== 'visible') m[i] = 'hidden'
       return m
     }, {})
