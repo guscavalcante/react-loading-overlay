@@ -54,7 +54,7 @@ class LoadingOverlayWrapper extends PureComponent<LoadingOverLayProps, LoadingOv
    * Convenience cx wrapper to add prefix classes to each of the child
    * elements for styling purposes.
    */
-  cx = (names: string | Array<string | false>, ...args: any) => {
+  cx = (names: string | Array<string | false | undefined>, ...args: any) => {
     const arr = Array.isArray(names) ? names : [names]
     return cx(
       ...arr.map(name => name ? `${this.props.classNamePrefix}${name}` : ''),

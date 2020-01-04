@@ -1,7 +1,7 @@
 import React from 'react'
 
 export type LoadingOverLayProps = {
-    active: boolean,
+    active?: boolean,
     fadeSpeed?: number,
     onClick?: () => void,
     className?: string,
