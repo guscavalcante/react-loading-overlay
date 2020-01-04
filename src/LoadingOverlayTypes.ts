@@ -9,10 +9,11 @@ export type LoadingOverLayProps = {
     spinner?: boolean | React.ReactNode,
     text?: React.ReactNode,
     styles?: {
-        content: () => void,
-        overlay: () => void,
-        spinner: () => void,
-        wrapper: () => void
+        content?: any,
+        overlay?: any,
+        spinner?: any,
+        wrapper?: any,
+        [key: string]: any
     }
 }
 

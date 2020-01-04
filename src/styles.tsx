@@ -25,7 +25,11 @@ const spinnerDash = keyframes`
   }
 `
 
-export default {
+type Styles = {
+    [key: string]: any
+}
+
+const styles: Styles = {
   wrapper: (state: LoadingOverlayState) => ({
     position: 'relative',
     ...state
@@ -79,3 +83,5 @@ export default {
     }
   })
 }
+
+export default styles

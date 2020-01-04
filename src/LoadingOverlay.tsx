@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import { css } from '@emotion/core'
-// TODO is this the same?
-import cx from 'classnames'
+import { cx } from 'emotion'
 
 import Spinner from './components/Spinner'
 import STYLES from './styles'
 import {LoadingOverlayDefaultProps, LoadingOverLayProps, LoadingOverlayState} from './LoadingOverlayTypes'
+import {TransitionStatus} from 'react-transition-group/Transition';
 
 class LoadingOverlayWrapper extends PureComponent<LoadingOverLayProps, LoadingOverlayState> {
   static defaultProps: LoadingOverlayDefaultProps = {
@@ -15,7 +15,6 @@ class LoadingOverlayWrapper extends PureComponent<LoadingOverLayProps, LoadingOv
     styles: {}
   }
 
-  // eslint-disable-next-line no-undef
   wrapper = React.createRef<HTMLDivElement>();
 
   constructor (props: LoadingOverLayProps) {
@@ -45,11 +44,9 @@ class LoadingOverlayWrapper extends PureComponent<LoadingOverLayProps, LoadingOv
    * If a custom style was provided via props, run it with
    * the base css obj.
    */
-  getStyles = (key: string, providedState?: LoadingOverlayState) => {
-    // @ts-ignore
+  getStyles = (key: string, providedState?: LoadingOverlayState | TransitionStatus) => {
     const base = STYLES[key](providedState, this.props)
-    // @ts-ignore
-    const custom = this.props.styles[key]
+    const custom = this.props.styles ? this.props.styles[key] : undefined
     if (!custom) return base
     return typeof custom === 'function'
       ? custom(base, this.props)
@@ -60,9 +57,13 @@ class LoadingOverlayWrapper extends PureComponent<LoadingOverLayProps, LoadingOv
    * Convenience cx wrapper to add prefix classes to each of the child
    * elements for styling purposes.
    */
-  // @ts-ignore
-  cx = (names: string | Array<string>, ...args) => {
+  cx = (names: string | Array<string>, ...args: any) => {
+    console.log(args);
     const arr = Array.isArray(names) ? names : [names]
+    console.log(cx(
+        ...arr.map(name => name ? `${this.props.classNamePrefix}${name}` : ''),
+        ...args
+    ))
     return cx(
       ...arr.map(name => name ? `${this.props.classNamePrefix}${name}` : ''),
       ...args
@@ -93,25 +94,27 @@ class LoadingOverlayWrapper extends PureComponent<LoadingOverLayProps, LoadingOv
         }
       >
         <CSSTransition
-          in={active}
-          classNames='_loading-overlay-transition'
-          timeout={fadeSpeed!}
-          unmountOnExit
+            in={active}
+            classNames='_loading-overlay-transition'
+            timeout={fadeSpeed!}
+            unmountOnExit
         >
-          <div
-            data-testid='overlay'
-            className={this.cx('overlay', css(this.getStyles('overlay', this.state)))}
-            onClick={onClick}
-          >
-            <div className={this.cx('content', css(this.getStyles('content')))}>
-              {spinner && (
-                typeof spinner === 'boolean'
-                  ? <Spinner cx={this.cx} getStyles={this.getStyles} />
-                  : spinner
-              )}
-              {text}
-            </div>
-          </div>
+          {state => (
+              <div
+                  data-testid='overlay'
+                  className={this.cx('overlay', css(this.getStyles('overlay', state)))}
+                  onClick={onClick}
+              >
+                <div className={this.cx('content', css(this.getStyles('content')))}>
+                  {spinner && (
+                      typeof spinner === 'boolean'
+                          ? <Spinner cx={this.cx} getStyles={this.getStyles}/>
+                          : spinner
+                  )}
+                  {text}
+                </div>
+              </div>
+          )}
         </CSSTransition>
         {children}
       </div>
